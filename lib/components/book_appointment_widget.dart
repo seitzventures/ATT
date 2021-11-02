@@ -2,13 +2,11 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
-import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,12 +24,12 @@ class BookAppointmentWidget extends StatefulWidget {
 
 class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
     with TickerProviderStateMixin {
-  DateTime datePicked;
   String dropDownValue;
   TextEditingController personsNameController;
   TextEditingController problemDescriptionController;
   bool _loadingButton1 = false;
   bool _loadingButton2 = false;
+  bool _loadingButton3 = false;
   final animationsMap = {
     'textFieldOnPageLoadAnimation1': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
@@ -53,12 +51,6 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
       fadeIn: true,
       slideOffset: Offset(0, -30),
     ),
-    'containerOnPageLoadAnimation': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      fadeIn: true,
-      slideOffset: Offset(0, -90),
-    ),
     'buttonOnPageLoadAnimation1': AnimationInfo(
       curve: Curves.bounceOut,
       trigger: AnimationTrigger.onPageLoad,
@@ -68,6 +60,14 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
       slideOffset: Offset(0, -20),
     ),
     'buttonOnPageLoadAnimation2': AnimationInfo(
+      curve: Curves.bounceOut,
+      trigger: AnimationTrigger.onPageLoad,
+      duration: 600,
+      delay: 150,
+      fadeIn: true,
+      slideOffset: Offset(0, -20),
+    ),
+    'buttonOnPageLoadAnimation3': AnimationInfo(
       curve: Curves.bounceOut,
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
@@ -131,7 +131,7 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                     child: Text(
-                      'Book Appointment',
+                      'Perform a test',
                       style: FlutterFlowTheme.title3,
                     ),
                   ),
@@ -142,31 +142,12 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                           child: Text(
-                            'Fill out the information below in order to book your appointment with our office.',
+                            'Connect to your ATT S-Series device',
                             style: FlutterFlowTheme.bodyText1,
                           ),
                         ),
                       )
                     ],
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                    child: Text(
-                      'Emails will be sent to:',
-                      style: FlutterFlowTheme.bodyText1,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 12),
-                    child: AuthUserStreamWidget(
-                      child: Text(
-                        currentUserEmail,
-                        style: FlutterFlowTheme.subtitle1.override(
-                          fontFamily: 'Lexend Deca',
-                          color: FlutterFlowTheme.primaryColor,
-                        ),
-                      ),
-                    ),
                   ),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
@@ -177,7 +158,7 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                       ),
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Booking For',
+                        labelText: 'Performed by',
                         labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -210,10 +191,10 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                     padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                     child: FlutterFlowDropDown(
                       options: [
-                        'Type of Appointment',
-                        'Doctors Visit',
-                        'Routine Checkup',
-                        'Scan/Update'
+                        'Type of Test',
+                        'Temperature',
+                        'Pressure',
+                        'Humidity'
                       ].toList(),
                       onChanged: (val) => setState(() => dropDownValue = val),
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -242,7 +223,7 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                       controller: problemDescriptionController,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'What\'s the problem?',
+                        labelText: 'Important notes',
                         labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -274,102 +255,6 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                         [animationsMap['textFieldOnPageLoadAnimation2']]),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                    child: InkWell(
-                      onTap: () async {
-                        await DatePicker.showDatePicker(
-                          context,
-                          showTitleActions: true,
-                          onConfirm: (date) {
-                            setState(() => datePicked = date);
-                          },
-                          currentTime: getCurrentTimestamp,
-                        );
-                      },
-                      child: Material(
-                        color: Colors.transparent,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.darkBackground,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: FlutterFlowTheme.background,
-                              width: 2,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          20, 0, 0, 0),
-                                      child: Text(
-                                        'Choose Date',
-                                        style:
-                                            FlutterFlowTheme.bodyText1.override(
-                                          fontFamily: 'Lexend Deca',
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          20, 4, 0, 0),
-                                      child: Text(
-                                        dateTimeFormat('MMMMEEEEd', datePicked),
-                                        style:
-                                            FlutterFlowTheme.bodyText2.override(
-                                          fontFamily: 'Lexend Deca',
-                                          color: FlutterFlowTheme.tertiaryColor,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FlutterFlowIconButton(
-                                      borderColor: Colors.transparent,
-                                      borderRadius: 30,
-                                      buttonSize: 46,
-                                      icon: Icon(
-                                        Icons.date_range_outlined,
-                                        color: FlutterFlowTheme.grayLight,
-                                        size: 20,
-                                      ),
-                                      onPressed: () {
-                                        print('IconButton pressed ...');
-                                      },
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ).animated([animationsMap['containerOnPageLoadAnimation']]),
-                  ),
-                  Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 20),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -387,7 +272,7 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                           },
                           text: 'Cancel',
                           options: FFButtonOptions(
-                            width: 100,
+                            width: 80,
                             height: 50,
                             color: FlutterFlowTheme.background,
                             textStyle: FlutterFlowTheme.subtitle2.override(
@@ -409,27 +294,79 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                           onPressed: () async {
                             setState(() => _loadingButton2 = true);
                             try {
-                              final appointmentsCreateData =
-                                  createAppointmentsRecordData(
-                                appointmentType: dropDownValue,
-                                appointmentTime: datePicked,
-                                appointmentName:
-                                    personsNameController?.text ?? '',
-                                appointmentDescription:
-                                    problemDescriptionController.text,
-                                appointmentEmail: currentUserEmail,
+                              await showDialog(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text('No device found'),
+                                    content: Text(
+                                        'Make sure your device is turned on and within range.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(alertDialogContext),
+                                        child: Text('Ok'),
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
-                              await AppointmentsRecord.collection
-                                  .doc()
-                                  .set(appointmentsCreateData);
-                              Navigator.pop(context);
                             } finally {
                               setState(() => _loadingButton2 = false);
                             }
                           },
-                          text: 'Book Now',
+                          text: 'Connect',
+                          icon: Icon(
+                            Icons.bluetooth,
+                            size: 15,
+                          ),
                           options: FFButtonOptions(
-                            width: 150,
+                            width: 130,
+                            height: 50,
+                            color: FlutterFlowTheme.background,
+                            textStyle: FlutterFlowTheme.subtitle2.override(
+                              fontFamily: 'Lexend Deca',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            elevation: 0,
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
+                            ),
+                            borderRadius: 8,
+                          ),
+                          loading: _loadingButton2,
+                        ).animated(
+                            [animationsMap['buttonOnPageLoadAnimation2']]),
+                        FFButtonWidget(
+                          onPressed: () async {
+                            setState(() => _loadingButton3 = true);
+                            try {
+                              await showDialog(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text('Connect a device'),
+                                    content: Text(
+                                        'No device connected. First connect a device'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(alertDialogContext),
+                                        child: Text('Ok'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } finally {
+                              setState(() => _loadingButton3 = false);
+                            }
+                          },
+                          text: 'Start',
+                          options: FFButtonOptions(
+                            width: 100,
                             height: 50,
                             color: FlutterFlowTheme.primaryColor,
                             textStyle: FlutterFlowTheme.subtitle2.override(
@@ -444,9 +381,9 @@ class _BookAppointmentWidgetState extends State<BookAppointmentWidget>
                             ),
                             borderRadius: 8,
                           ),
-                          loading: _loadingButton2,
+                          loading: _loadingButton3,
                         ).animated(
-                            [animationsMap['buttonOnPageLoadAnimation2']])
+                            [animationsMap['buttonOnPageLoadAnimation3']])
                       ],
                     ),
                   )
