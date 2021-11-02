@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "788391140661",
+    "project_id": "att-digital-series",
+    "storage_bucket": "att-digital-series.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788391140661:android:b41e039c2394eb2222007c",
+        "android_client_info": {
+          "package_name": "com.seitzventures.att"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788391140661-kt4ai372f1dm6bsg6plpfif15eh7l98i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI297fy1PHjjzstZIF0n3ElExZU97ArWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788391140661-kt4ai372f1dm6bsg6plpfif15eh7l98i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "788391140661-7tjje68jfirvbp87vo5jk7ua08hid6l6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.seitzventures.att"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
